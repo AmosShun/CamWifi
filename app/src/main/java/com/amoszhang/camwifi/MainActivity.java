@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 
 
@@ -25,6 +27,12 @@ public class MainActivity extends ActionBarActivity {
         button_back.setOnTouchListener(ontouch);
         button_forward.setOnTouchListener(ontouch);
         button_right.setOnTouchListener(ontouch);
+
+        // Set WebView
+        WebView webview = (WebView) findViewById(R.id.webview);
+        WebSettings settings = webview.getSettings();
+        settings.setJavaScriptEnabled(true);
+        webview.loadUrl("http://192.168.1.100:8081/javascript_simple.html");
     }
 
     // OnTouchListeners for 4 buttons
