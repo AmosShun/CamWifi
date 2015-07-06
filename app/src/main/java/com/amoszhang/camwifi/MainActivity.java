@@ -12,6 +12,7 @@ import android.widget.Button;
 
 
 public class MainActivity extends ActionBarActivity {
+    public ClientThread client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,16 @@ public class MainActivity extends ActionBarActivity {
         WebSettings settings = webview.getSettings();
         settings.setJavaScriptEnabled(true);
         webview.loadUrl("http://192.168.1.100:8081/javascript_simple.html");
+
+        // Start Client thread
+        client = new ClientThread();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        client.send("exit\n");
+        client.exit = true;
     }
 
     // OnTouchListeners for 4 buttons
@@ -49,16 +60,22 @@ public class MainActivity extends ActionBarActivity {
                     // Different responses for 4 buttons
                     switch(button){
                         case R.id.button_left:
-
+                            client.send("LEFT\n");
+                            break;
                         case R.id.button_back:
-
+                            client.send("BACK\n");
+                            break;
                         case R.id.button_forward:
-
+                            client.send("FORWARD\n");
+                            break;
                         case R.id.button_right:
-
+                            client.send("RIGHT\n");
+                            break;
                     }
+                    break;
                 case MotionEvent.ACTION_UP:
-
+                    client.send("STOP\n");
+                    break;
             }
 
             return false;
